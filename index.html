@@ -14,10 +14,10 @@
     <header class="main-header">
         <h1>Travel Tip</h1>
         <div class="search-container">
-                <input type="text" class="search-input" id="search-input" placeholder="Enter Location"
-                    onchange="onResearch(this.value)">
-                <label for="search-input"><button class="btn search-location-btn">GO</button></label>
-            <button class="btn my-location-btn">My Location</button>
+            <input type="text" class="search-input" id="search-input" placeholder="Enter Location"
+                onchange="onPanTo(this)">
+            <label for="search-input"><button class="btn search-location-btn">GO</button></label>
+            <button class="btn my-location-btn" onclick="getPosition()">My Location</button>
         </div>
     </header>
     <div class="discription-container">
@@ -27,14 +27,30 @@
     <div class="main-container">
         <div class="info-container">
             <div class="weather-container"></div>
-            <div class="locations-container"></div>
+            <div class="locations-container">
+                <table>
+                    <thead>
+                        <th>id: </th>
+                        <th>name: </th>
+                        <th>lat: </th>
+                        <th>lng: </th>
+                        <th>weather:</th>
+                        <th>createdAt: </th>
+                        <th>updatedAt: </th>
+                        <th>Actions </th>
+                    </thead>
+                    <tbody class="locs">
+
+                    </tbody>
+                </table>
+            </div>
         </div>
         <div class="map-container"></div>
     </div>
 
 
 
-
+    <script src="lib/axios.js"></script>
     <script type="module" src="js/app.controller.js"></script>
 </body>
 
