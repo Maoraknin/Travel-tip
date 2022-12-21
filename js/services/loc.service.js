@@ -1,15 +1,16 @@
 import { utilService } from './util.service.js'
+import { storageService } from './async-storage.service.js'
 
 export const locService = {
     getLocs,
-    addLoc
+    addLoc,
+    deleteLoc
 
 }
 
+const LOCATION_KEY = 'locationDB'
 
-const locs = [
-    { id: utilService.makeId(), name: 'Greatplace', lat: 32.047104, lng: 34.832384, weather: 'sunny', createdAt: 5, updatedAt: 6 }
-]
+let locs = []
 
 function addLoc(name, lat, lng, date) {
     const loc = {
@@ -22,18 +23,35 @@ function addLoc(name, lat, lng, date) {
         updatedAt: date
     }
     locs.push(loc)
-    console.log('locs:',locs)
+    utilService.saveToStorage(LOCATION_KEY, locs)
+    console.log('locs:', locs)
 }
 
 
 // id: utilService.makeId(),
 
 function getLocs() {
-    return new Promise((resolve, reject) => {
-        setTimeout(() => {
-            resolve(locs)
-        }, 100)
+    return storageService.query(LOCATION_KEY, 0).then(res => {
+        if (res && res.length) {
+            locs = res
+            console.log(res);
+            console.log('from CACHE');
+            return res
+        }
+        else return new Promise((resolve, reject) => {
+            console.log('from Site')
+            setTimeout(() => {
+                resolve(locs)
+            }, 1)
+        })
     })
+
 }
 
+function deleteLoc(locId) {
+    return storageService.remove(LOCATION_KEY, locId) 
+    
+    // const locIdx = findLocById(locId)
+    
+}
 

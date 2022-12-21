@@ -2,7 +2,6 @@ import { locService } from './loc.service.js'
 
 export const mapService = {
     addMarker,
-    go,
     mapClick,
     connectGeoCodeApi,
     connectGoogleApi,
@@ -85,9 +84,7 @@ function connectGoogleApi() {
 }
 
 
-function go(locId) {
-    console.log('locId:', locId)
-}
+
 
 // function getLocById(locId){
 //     }

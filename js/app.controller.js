@@ -9,6 +9,7 @@ window.panTo = panTo
 window.onGetLocs = onGetLocs
 window.onGetUserPos = onGetUserPos
 window.onGo = onGo
+window.onDelete = onDelete
 window.getPosition = getPosition
 // window.onMapClick = onMapClick
 var gMap
@@ -116,8 +117,8 @@ function renderLocs(locs) {
         <td>${loc.createdAt}</td>
         <td>${loc.updatedAt}</td>
         <td>
-        <button class="btn-go btn" onclick="onGo(${loc.id})">Go</button>
-        <button class="btn-delete btn" onclick="onDelete(${loc.id})">Delete</button>
+        <button class="btn-go btn" onclick="onGo(${loc.lat},${loc.lng})">Go</button>
+        <button class="btn-delete btn" onclick="onDelete('${loc.id}')">Delete</button>
         </td>
     </tr>`
     }).join('')
@@ -125,8 +126,13 @@ function renderLocs(locs) {
 
 }
 
-function onGo(locId){
-    mapService.go(locId)
+function onDelete(locId){
+    locService.deleteLoc(locId).then(onGetLocs)
+}
+
+function onGo(lat, lng){
+    // console.log('lat, lng:',lat, lng)
+    panTo(lat, lng)
     // initMap()
 }
 

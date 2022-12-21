@@ -78,6 +78,9 @@ body {
     flex-grow: 4;
 }
 
+table{
+    font-size: 0.8rem;
+}
 
 
 /* INPUT */
