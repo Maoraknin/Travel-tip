@@ -11,34 +11,31 @@
 
 <body onload="onInit()">
 
-    <header class="main-header flex align-center space-between">
+    <header class="main-header">
         <h1>Travel Tip</h1>
         <div class="search-container">
-            <input type="text" class="search-input" id="search-input" placeholder="Search"
-                onchange="onResearch(this.value)">
-            <label for="search-input"><button class="search-btn">Search</button></label>
+                <input type="text" class="search-input" id="search-input" placeholder="Enter Location"
+                    onchange="onResearch(this.value)">
+                <label for="search-input"><button class="btn search-location-btn">GO</button></label>
+            <button class="btn my-location-btn">My Location</button>
         </div>
     </header>
-    <div class="main-container flex">
-        <div class="cards-container"></div>
+    <div class="discription-container">
+        <p class="discription"><strong>Location:</strong> Lorem, ipsum dolor.</p>
+        <button class="btn copy-location-btn">Copy Location</button>
+    </div>
+    <div class="main-container">
         <div class="info-container">
-            <div class="videos-container">
-                <strong>
-                    <h1> Elhanan hakatan</h1>
-                </strong>
-            </div>
-            <div class="wikipedia-container"></div>
+            <div class="weather-container"></div>
+            <div class="locations-container"></div>
         </div>
+        <div class="map-container"></div>
     </div>
 
 
 
 
-    <!-- <script src="lib/swal.js"></script> -->
-    <script src="lib/axios.js"></script>
-    <script src="js/services/storage.service.js"></script>
-    <script src="js/service/service-1.js"></script>
-    <script src="js/controler-1.js"></script>
+    <script type="module" src="js/app.controller.js"></script>
 </body>
 
 </html>
