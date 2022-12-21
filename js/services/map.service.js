@@ -67,7 +67,7 @@ function _connectGoogleApi() {
     if (window.google) return Promise.resolve()
     const API_KEY = '' //TODO: Enter your API Key
     var elGoogleApi = document.createElement('script')
-    elGoogleApi.src = `https://maps.googleapis.com/maps/api/js?key=AIzaSyBody3Gk1JTzeJQpy_p-uQuN-mvnxarwOM`
+    elGoogleApi.src = `https://maps.googleapis.com/maps/api/js?key=AIzaSyCB0AieRfE8jFeAQWL8okf7J69APWc8VTI`
     elGoogleApi.async = true
     document.body.append(elGoogleApi)
 
