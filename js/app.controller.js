@@ -3,7 +3,6 @@ import { locService } from './services/loc.service.js'
 import { mapService } from './services/map.service.js'
 
 window.onload = onInit
-window.onAddMarker = onAddMarker
 window.onPanTo = onPanTo
 window.panTo = panTo
 window.onGetLocs = onGetLocs
@@ -13,17 +12,16 @@ window.onDelete = onDelete
 window.getPosition = getPosition
 // window.onMapClick = onMapClick
 var gMap
+const gQueryStringParams = new URLSearchParams(window.location.search)
 
 function onInit() {
+    getQueryStringParam()
     onGetLocs()
-    initMap()
-        .then(() => {
-            console.log('Map is ready')
-        })
-        .catch(() => console.log('Error: cannot init map'))
+    renderByQueryStringParams()
 }
 
 function panTo(lat, lng) {
+    console.log('lat, lng:',lat, lng)
     // console.log('lat:',lat)
     var laLatLng = new google.maps.LatLng(lat, lng)
     // console.log('laLatLng:',laLatLng)
@@ -31,7 +29,14 @@ function panTo(lat, lng) {
     gMap.panTo(laLatLng)
 }
 
+function getQueryStringParam() {
+    // gQueryStringParams.set('lang', `he`)
+    const searchParam = gQueryStringParams.toString()
+    const newUrl = window.location.protocol + "//" + window.location.host + window.location.pathname + "?" + searchParam
+    window.history.pushState({ path: newUrl }, '', newUrl)
+    console.log(newUrl);
 
+}
 
 function initMap(lat = 32.0749831, lng = 34.9120554) {
     console.log('InitMap')
@@ -66,7 +71,9 @@ function initMap(lat = 32.0749831, lng = 34.9120554) {
                 infoWindow.open(gMap);
                 // gCurrCords = JSON.parse(infoWindow.content)
                 // marker.position = gCurrCords
-                mapService.mapClick(mapsMouseEvent.latLng.toJSON())
+                const location = mapsMouseEvent.latLng.toJSON()
+                mapService.mapClick(location)
+                _updateStringParam(location.lat,location.lng)
                 onGetLocs()
 
             });
@@ -81,7 +88,16 @@ function onPanTo(elInput) {
 }
 
 
-
+function renderByQueryStringParams() {
+    const lat = gQueryStringParams.get('lat')
+    const lng = gQueryStringParams.get('lng')
+    if (!lat || !lng) return
+    initMap(+lat, +lng)
+    .then(() => {
+        console.log('Map is ready')
+    })
+    .catch(() => console.log('Error: cannot init map'))
+}
 
 
 // This function provides a Promise API to the callback-based-api of getCurrentPosition
@@ -93,10 +109,6 @@ function getPosition() {
     }).then(res => res.coords).then(res => initMap(res.latitude, res.longitude))
 }
 
-function onAddMarker() {
-    console.log('Adding a marker')
-    mapService.addMarker({ lat: 32.0749831, lng: 34.9120554 })
-}
 
 function onGetLocs() {
     locService.getLocs()
@@ -131,9 +143,16 @@ function onDelete(locId){
 }
 
 function onGo(lat, lng){
+    _updateStringParam(lat, lng)
     // console.log('lat, lng:',lat, lng)
     panTo(lat, lng)
     // initMap()
+}
+
+function _updateStringParam(lat,lng){
+    gQueryStringParams.set('lat', `${lat}`)
+    gQueryStringParams.set('lng', `${lng}`)
+    getQueryStringParam()
 }
 
 function onGetUserPos() {
