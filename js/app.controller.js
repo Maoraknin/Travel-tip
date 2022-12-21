@@ -91,7 +91,7 @@ function onPanTo(elInput) {
 function renderByQueryStringParams() {
     const lat = gQueryStringParams.get('lat')
     const lng = gQueryStringParams.get('lng')
-    if (!lat || !lng) return
+    if (!lat || !lng) return initMap()
     initMap(+lat, +lng)
     .then(() => {
         console.log('Map is ready')
