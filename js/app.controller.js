@@ -29,6 +29,8 @@ function panTo(lat, lng) {
     gMap.panTo(laLatLng)
 }
 
+
+
 function getQueryStringParam() {
     // gQueryStringParams.set('lang', `he`)
     const searchParam = gQueryStringParams.toString()
@@ -82,11 +84,15 @@ function initMap(lat = 32.0749831, lng = 34.9120554) {
 
 function onPanTo(elInput) {
     const value = elInput.value
+    renderDesc(value)
     elInput.value = ''
     console.log('Panning the Map')
     mapService.connectGeoCodeApi(value)
 }
 
+function renderDesc(location){
+    document.querySelector('.discription span').innerText = location
+}
 
 function renderByQueryStringParams() {
     const lat = gQueryStringParams.get('lat')
@@ -123,13 +129,11 @@ function renderLocs(locs) {
         return `<tr>
         <td>${loc.id}</td>
         <td>${loc.name}</td>
-        <td>${loc.lat}</td>
-        <td>${loc.lng}</td>
-        <td>${loc.weather}</td>
+        <td>${loc.lat}, ${loc.lng}</td>
         <td>${loc.createdAt}</td>
         <td>${loc.updatedAt}</td>
         <td>
-        <button class="btn-go btn" onclick="onGo(${loc.lat},${loc.lng})">Go</button>
+        <button class="btn-go btn" onclick="onGo(${loc.lat},${loc.lng},'${loc.name}')">Go</button>
         <button class="btn-delete btn" onclick="onDelete('${loc.id}')">Delete</button>
         </td>
     </tr>`
@@ -142,7 +146,8 @@ function onDelete(locId){
     locService.deleteLoc(locId).then(onGetLocs)
 }
 
-function onGo(lat, lng){
+function onGo(lat, lng, name){
+    renderDesc(name)
     _updateStringParam(lat, lng)
     // console.log('lat, lng:',lat, lng)
     panTo(lat, lng)

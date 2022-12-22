@@ -21,7 +21,6 @@ function mapClick(location) {
     let current_time = date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds();
     let date_time = current_date + " " + current_time;
 
-    if (!name) name = 'elhanan'
     locService.addLoc(name, location.lat, location.lng, date_time)
 
 
